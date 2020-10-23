@@ -35,8 +35,13 @@ var runCmd = &cli.Command{
 	Usage: "Start a lotus miner process",
 	Flags: []cli.Flag{
 		&cli.BoolFlag{
-			Name:  "post",
-			Usage: "enable PoSt",
+			Name:  "wdpost",
+			Usage: "enable windowPoSt",
+			Value: true,
+		},
+		&cli.BoolFlag{
+			Name:  "wnpost",
+			Usage: "enable winningPoSt",
 			Value: true,
 		},
 		&cli.BoolFlag{
@@ -84,10 +89,16 @@ var runCmd = &cli.Command{
 		},
 	},
 	Action: func(cctx *cli.Context) error {
-		if cctx.Bool("post") {
-			os.Setenv("LOTUS_POST", "true")
+		if cctx.Bool("wdpost") {
+			os.Setenv("LOTUS_WDPOST", "true")
 		} else {
-			os.Unsetenv("LOTUS_POST")
+			os.Unsetenv("LOTUS_WDPOST")
+		}
+
+		if cctx.Bool("wnpost") {
+			os.Setenv("LOTUS_WNPOST", "true")
+		} else {
+			os.Unsetenv("LOTUS_WNPOST")
 		}
 
 		scType := cctx.String("sctype")
